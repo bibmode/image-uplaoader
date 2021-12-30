@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import { ThemeProvider } from "@emotion/react";
+import { createTheme } from "@mui/material";
+import { useState } from "react";
+import { createContext } from "react";
+import { Routes, Route } from "react-router-dom";
+import Result from "./components/Result";
+import Uploader from "./components/Uploader";
+
+const theme = createTheme({
+  typography: {
+    fontFamily: `"Poppins", sans-serif`,
+  },
+});
+
+export const AppContext = createContext(null);
 
 function App() {
+  const [imageAsset, setImageAsset] = useState(null);
+  const [loader, setLoader] = useState(false);
+  const [copyAlert, setCopyAlert] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <AppContext.Provider
+        value={{
+          imageAsset,
+          setImageAsset,
+          loader,
+          setLoader,
+          copyAlert,
+          setCopyAlert,
+        }}
+      >
+        <div className="App">
+          <Routes>
+            <Route exact path="/" element={<Uploader />} />
+            <Route exact path="/result/:id" element={<Result />} />
+          </Routes>
+        </div>
+      </AppContext.Provider>
+    </ThemeProvider>
   );
 }
 
