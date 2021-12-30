@@ -13,7 +13,6 @@ import {
 import { styled } from "@mui/system";
 import { client } from "../client";
 import { AppContext } from "../App";
-import { useNavigate } from "react-router-dom";
 // import { client } from "../client";
 
 //styling
@@ -86,9 +85,8 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 //component
 const Uploader = () => {
-  const { imageAsset, setImageAsset, loader, setLoader } =
+  const { imageAsset, setImageAsset, loader, setLoader, navigate } =
     useContext(AppContext);
-  const navigate = useNavigate();
 
   const fileUpload = (e, method) => {
     e.preventDefault();
@@ -133,13 +131,15 @@ const Uploader = () => {
         },
       },
     };
-    client.create(doc).then(() => setLoader(false));
+    client.create(doc).then(() => {
+      setLoader(false);
+      navigate(`result/${imageAsset._id}`);
+    });
   };
 
   useEffect(() => {
     if (imageAsset) {
       saveImage();
-      navigate(`/result/${imageAsset._id}`);
     }
   }, [imageAsset]);
 
