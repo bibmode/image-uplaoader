@@ -111,6 +111,7 @@ const Uploader = () => {
         })
         .then((document) => {
           setImageAsset(document);
+          imageAsset && saveImage();
         })
         .catch((error) => {
           console.log(`image upload error: ${error}`);
@@ -131,17 +132,17 @@ const Uploader = () => {
         },
       },
     };
+
     client.create(doc).then(() => {
       setLoader(false);
-      navigate(`result/${imageAsset._id}`);
+      imageAsset?._id && navigate(`result/${imageAsset._id}`);
     });
   };
 
-  useEffect(() => {
-    if (imageAsset) {
-      saveImage();
-    }
-  }, [imageAsset]);
+  // useEffect(() => {
+  //   console.log(imageAsset);
+  //   imageAsset && saveImage();
+  // }, [imageAsset]);
 
   const openDialog = () => {
     document.getElementById("fileid").click();
