@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 
 import {
   Box,
@@ -85,8 +85,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 //component
 const Uploader = () => {
-  const { imageAsset, setImageAsset, loader, setLoader, navigate } =
-    useContext(AppContext);
+  const { setImageAsset, loader, setLoader, navigate } = useContext(AppContext);
 
   const fileUpload = (e, method) => {
     e.preventDefault();
@@ -111,7 +110,7 @@ const Uploader = () => {
         })
         .then((document) => {
           setImageAsset(document);
-          imageAsset && saveImage();
+          saveImage(document);
         })
         .catch((error) => {
           console.log(`image upload error: ${error}`);
@@ -121,26 +120,25 @@ const Uploader = () => {
     }
   };
 
-  const saveImage = () => {
+  const saveImage = (document) => {
     const doc = {
       _type: "picture",
       image: {
         _type: "image",
         asset: {
           _type: "reference",
-          _ref: imageAsset?._id,
+          _ref: document._id,
         },
       },
     };
 
     client.create(doc).then(() => {
       setLoader(false);
-      imageAsset?._id && navigate(`result/${imageAsset._id}`);
+      navigate(`result/${document._id}`);
     });
   };
 
   // useEffect(() => {
-  //   console.log(imageAsset);
   //   imageAsset && saveImage();
   // }, [imageAsset]);
 
