@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/system";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { AppContext } from "../App";
 
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";

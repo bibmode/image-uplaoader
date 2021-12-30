@@ -139,7 +139,7 @@ const Uploader = () => {
   useEffect(() => {
     if (imageAsset) {
       saveImage();
-      navigate(`/result/${imageAsset._id}`, { replace: true });
+      navigate(`/result/${imageAsset._id}`);
     }
   }, [imageAsset]);
 
